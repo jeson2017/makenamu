@@ -1,0 +1,11 @@
+.\obj\time.o: user\time.c
+.\obj\time.o: user\time.h
+.\obj\time.o: .\FWlib\inc\stm32f10x_tim.h
+.\obj\time.o: .\CM3\stm32f10x.h
+.\obj\time.o: .\CM3\core_cm3.h
+.\obj\time.o: E:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\time.o: .\CM3\system_stm32f10x.h
+.\obj\time.o: .\FWlib\inc\stm32f10x_conf.h
+.\obj\time.o: .\FWlib\inc\stm32f10x_gpio.h
+.\obj\time.o: .\CM3\stm32f10x.h
+.\obj\time.o: .\FWlib\inc\stm32f10x_rcc.h

@@ -1,0 +1,10 @@
+.\Obj\sensers.o: user\sensers.c
+.\Obj\sensers.o: .\CM3\stm32f10x.h
+.\Obj\sensers.o: .\CM3\core_cm3.h
+.\Obj\sensers.o: C:\Keil\ARM\RV31\INC\stdint.h
+.\Obj\sensers.o: .\CM3\system_stm32f10x.h
+.\Obj\sensers.o: .\FWlib\inc\stm32f10x_conf.h
+.\Obj\sensers.o: .\FWlib\inc\stm32f10x_gpio.h
+.\Obj\sensers.o: .\CM3\stm32f10x.h
+.\Obj\sensers.o: .\FWlib\inc\stm32f10x_rcc.h
+.\Obj\sensers.o: C:\Keil\ARM\RV31\INC\stdio.h
