@@ -2,6 +2,25 @@
 #define __PSTWO_H
 #include "delay.h"
 #include "sys.h"
+
+extern u16 psinputstat;
+
+#define PS_LEFT					0x7fff
+#define PS_RIGHT				0xdfff
+#define PS_UP						0xefff
+#define PS_DOWN					0xbfff
+
+#define PS_LEFT_UP			0x6fff
+#define PS_LEFT_DOWN		0x3fff
+#define PS_RIGHT_UP			0xcfff
+#define PS_RIGHT_DOWN		0x9fff
+
+#define PS_LEFT_ROLL		0x7ff7
+#define PS_RIGHT_ROLL		0xdff7
+#define PS_NULL		0xffff
+
+
+
 /*********************************************************
 Copyright (C), 2015-2025, YFRobot.
 www.yfrobot.com
@@ -43,6 +62,7 @@ Description: PS2驱动程序
 #define PSB_CROSS       15
 #define PSB_SQUARE      26
 
+
 //#define WHAMMY_BAR		8
 
 //These are stick values
@@ -64,6 +84,7 @@ void PS2_Cmd(u8 CMD);		  //
 u8 PS2_DataKey(void);		  //键值读取
 u8 PS2_AnologData(u8 button); //得到一个摇杆的模拟量
 void PS2_ClearData(void);	  //清除数据缓冲区
+void psinput(); // 手柄按键输入
 
 #endif
 

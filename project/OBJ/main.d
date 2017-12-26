@@ -40,3 +40,7 @@
 ..\obj\main.o: system.h
 ..\obj\main.o: E:\Keil\ARM\ARMCC\bin\..\include\string.h
 ..\obj\main.o: canopen.h
+..\obj\main.o: ..\HARDWARE\PSTWO\pstwo.h
+..\obj\main.o: ..\SYSTEM\move\drive.h
+..\obj\main.o: ..\HARDWARE\TIMER\timer.h
+..\obj\main.o: ..\HARDWARE\RS485\rs485.h

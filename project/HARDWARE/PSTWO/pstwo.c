@@ -7,6 +7,7 @@ File：PS2驱动程序
 Author：pinggai    Version:1.0     Data:2015/05/16
 Description: PS2驱动程序
 **********************************************************/	 
+u16 psinputstat;
 u16 Handkey;
 u8 Comd[2]={0x01,0x42};	//开始命令。请求数据
 u8 Data[9]={0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}; //数据存储数组
@@ -138,6 +139,17 @@ void PS2_ClearData()
 		Data[a]=0x00;
 }
 
-
+void psinput()
+{
+	if( PS2_RedLight())
+	{
+		delay_ms(50);	 //延时很重要不可去
+		PS2_DataKey();	 //手柄按键捕获处理
+		psinputstat = (Data[3] << 8 | Data[4]);
+	}else{
+		delay_ms(50);
+	}
+	
+}
 
 

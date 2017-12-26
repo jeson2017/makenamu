@@ -451,12 +451,11 @@ void System_Init(void)
 
 	gInnerData->MagDist = 0.01;
 
-	gHalData->WheelHal[0].FlagForward = 1;
-	gHalData->WheelHal[1].FlagForward = 1;
-	gHalData->WheelHal[2].FlagForward = 1;
-	gHalData->WheelHal[3].FlagForward = 1;
-	gHalData->WheelHal[4].FlagForward = 1;
-	gHalData->WheelHal[5].FlagForward = 1;
+	gHalData->WheelHal[0].FlagForward = -1.0;
+	gHalData->WheelHal[1].FlagForward = -1.0;
+	gHalData->WheelHal[2].FlagForward = 1.0;
+	gHalData->WheelHal[3].FlagForward = 1.0;
+
 //	gHalData->WheelHal[6].FlagForward = 1;
 //	gHalData->WheelHal[7].FlagForward = 1;
 
@@ -502,7 +501,7 @@ unsigned int RTU_CRC(unsigned char *data,unsigned char length)
 ****************************************************************************/
 void Drivers_Init(void)
 {
-	int times = 10;
+	int times = 5;
 	int num = 0;
 	int ready = 0;
 	
