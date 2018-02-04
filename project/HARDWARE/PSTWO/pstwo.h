@@ -19,6 +19,11 @@ extern u16 psinputstat;
 #define PS_RIGHT_ROLL		0xdff7
 #define PS_NULL		0xffff
 
+#define PS_SQU		0xff7f
+#define PS_ROLL		0xffdf
+#define	PS_SIG		0xffef
+#define	PS_X			0xffbf
+
 
 
 /*********************************************************

@@ -1,5 +1,6 @@
 #include "pstwo.h"
 #include "usart.h"
+#include "timer.h"
 /*********************************************************
 Copyright (C), 2015-2025, YFRobot.
 www.yfrobot.com
@@ -141,13 +142,22 @@ void PS2_ClearData()
 
 void psinput()
 {
+	static unsigned char stat = 0;
 	if( PS2_RedLight())
 	{
+//		if(stat == 0){
+//			PS2DELAY	= 0;
+//			stat = 1;
+//		}
 		delay_ms(50);	 //延时很重要不可去
-		PS2_DataKey();	 //手柄按键捕获处理
-		psinputstat = (Data[3] << 8 | Data[4]);
+//		if(PS2DELAY >= 5 && stat==1){
+			stat = 0;
+			PS2DELAY = 0;
+			PS2_DataKey();	 //手柄按键捕获处理
+			psinputstat = (Data[3] << 8 | Data[4]);
+//		}
 	}else{
-		delay_ms(50);
+	//	delay_ms(50);
 	}
 	
 }

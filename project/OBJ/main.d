@@ -44,3 +44,4 @@
 ..\obj\main.o: ..\SYSTEM\move\drive.h
 ..\obj\main.o: ..\HARDWARE\TIMER\timer.h
 ..\obj\main.o: ..\HARDWARE\RS485\rs485.h
+..\obj\main.o: ..\SYSTEM\magc\magc.h

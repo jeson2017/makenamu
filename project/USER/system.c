@@ -16,6 +16,9 @@
 #include "stm32f10x_can.h"
 #include "system.h"
 #include "led.h"
+#include "timer.h"
+
+#define DELAYTIM	1
 
 BaseSysSt* gSysData;
 BaseComSt* gComData;
@@ -1101,9 +1104,10 @@ void Command_Handle(void)
 ****************************************************************************/
 void Data_Send(void)
 {
+	static unsigned char motornum =0;
 	int num = 0;
 
-//	Delay(20000);
+////	Delay(20000);
 	for(num = 0; num < MOTORNUM; num++)
 	{
 	  if(0 == gInnerData->FatalErr)
@@ -1121,6 +1125,73 @@ void Data_Send(void)
 		gHalData->WheelHal[num].ObDict[STATUSWORD].Value[0] = 0;
 		Delay(20000); // 开一个定时器，把他替换掉，标志位计数等于MOTORNUM时清零，发送同步信号
 	}
+//	switch(motornum)
+//	{
+//		case 0:
+//			motornum = 1;
+//			MOTORDELAY = 0;
+//			break;
+//		case 1:
+//			if(MOTORDELAY>=DELAYTIM){
+//				if(0 == gInnerData->FatalErr){
+//	        gHalData->WheelHal[motornum-1].CmdMotorvel = (int)(gHalData->WheelHal[motornum-1].CmdVel * gInnerData->GearScale * 60  * gHalData->WheelHal[motornum-1].FlagForward / gInnerData->WheelPeri);
+//				}else{
+//					gHalData->WheelHal[motornum-1].CmdMotorvel = 0;
+//				}
+//				SendPDO(motornum-1);
+//				gHalData->WheelHal[motornum-1].ObDict[STATUSWORD].Value[0] = 0;
+//				MOTORDELAY = 0;
+//				motornum = 2;
+//			}
+//			break;
+//		case 2:
+//			if(MOTORDELAY>=DELAYTIM){
+//				if(0 == gInnerData->FatalErr){
+//	        gHalData->WheelHal[motornum-1].CmdMotorvel = (int)(gHalData->WheelHal[motornum-1].CmdVel * gInnerData->GearScale * 60  * gHalData->WheelHal[motornum-1].FlagForward / gInnerData->WheelPeri);
+//				}else{
+//					gHalData->WheelHal[motornum-1].CmdMotorvel = 0;
+//				}
+//				SendPDO(motornum-1);
+//				gHalData->WheelHal[motornum-1].ObDict[STATUSWORD].Value[0] = 0;
+//				MOTORDELAY = 0;
+//				motornum = 3;
+//			}
+//			break;
+//		case 3:
+//			if(MOTORDELAY>=DELAYTIM){
+//				if(0 == gInnerData->FatalErr){
+//	        gHalData->WheelHal[motornum-1].CmdMotorvel = (int)(gHalData->WheelHal[motornum-1].CmdVel * gInnerData->GearScale * 60  * gHalData->WheelHal[motornum-1].FlagForward / gInnerData->WheelPeri);
+//				}else{
+//					gHalData->WheelHal[motornum-1].CmdMotorvel = 0;
+//				}
+//				SendPDO(motornum-1);
+//				gHalData->WheelHal[motornum-1].ObDict[STATUSWORD].Value[0] = 0;
+//				MOTORDELAY = 0;
+//				motornum = 4;
+//			}
+//			break;
+//		case 4:
+//			if(MOTORDELAY>=DELAYTIM){
+//				if(0 == gInnerData->FatalErr){
+//	        gHalData->WheelHal[motornum-1].CmdMotorvel = (int)(gHalData->WheelHal[motornum-1].CmdVel * gInnerData->GearScale * 60  * gHalData->WheelHal[motornum-1].FlagForward / gInnerData->WheelPeri);
+//				}else{
+//					gHalData->WheelHal[motornum-1].CmdMotorvel = 0;
+//				}
+//				SendPDO(motornum-1);
+//				gHalData->WheelHal[motornum-1].ObDict[STATUSWORD].Value[0] = 0;
+//				MOTORDELAY = 0;
+//				motornum = 5;
+//			}
+//			break;
+//		case 5:
+//			if(MOTORDELAY>=0){
+//				motornum = 0;
+//				Status_UpLoad();
+//				MOTORDELAY = 0;
+//			}
+//			break;
+//	}
+	
 }
 /****************************************************************************
 * 名    称：void Status_UpLoad(void)

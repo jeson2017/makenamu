@@ -11,6 +11,7 @@
 #include "drive.h"
 #include "timer.h"
 #include "rs485.h"
+#include "magc.h"
  
  
  
@@ -30,6 +31,7 @@
  int main(void)
  {	 
 	u8 key;
+	u8 runmode=0;
 	u8 mode_change = 0;
 //	u8 i=0,t=0;
 //	u8 cnt=0;
@@ -42,16 +44,19 @@
 	delay_init();	    	 //延时函数初始化	  
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
 //	uart_init(115200);	 	//串口初始化为115200
+	
 	LED_Init();		  		//初始化与LED连接的硬件接口
 //	LCD_Init();			   	//初始化LCD	
 //	KEY_Init();				//按键初始化		 	
    RS485_Init(9600);	//初始化RS485
-	 TIM3_Int_Init(1999,7199);//10Khz的计数频率，计数到2000为200ms 
+	 
 //	CAN_Mode_Init(CAN_SJW_1tq,CAN_BS2_8tq,CAN_BS1_9tq,4,CAN_Mode_LoopBack);//CAN初始化环回模式,波特率500Kbps    
 	System_Init();
 	CAN_Mode_Init(CAN_SJW_1tq,CAN_BS2_8tq,CAN_BS1_9tq,4,CAN_Mode_Normal);//CAN普通模式初始化, 波特率500Kbps 
 	CanOpen_Init();
 	Drivers_Init();
+	TIM2_Int_Init(9,719);//100Khz的计数频率，计数到2000为10us 
+	TIM3_Int_Init(99,7199);//10Khz的计数频率，计数到2000为10ms
 	
 /*
  	POINT_COLOR=RED;//设置字体为红色 
@@ -72,61 +77,34 @@
 	{
 		// 处理一下要用到的LED显示灯
 //		move_process();
-		psinput();	
-		move_process();
+//		if(runmode == 0){
+			psinput();
+//		}
+		if(psinputstat == PS_ROLL){ // 模式切换
+			runmode = 1;
+		}else if(psinputstat == PS_SIG){ // 速度调整
+			Para_Speed += 1;
+			if(Para_Speed >20)
+				Para_Speed = 20;
+		}else if(psinputstat == PS_X){ // 速度调整
+			Para_Speed =1;
+			runmode = 0;
+		}
+		if(READMAGCDELAY >= 5){
+			READ_MAGC_DATA();
+			READMAGCDELAY = 0;
+		}
+		if(runmode == 0){
+			move_process();
+		}
+		else{
+			auto_run();
+		}
 		
 		Data_Send();
 		Status_UpLoad();
-		/*
-		key=KEY_Scan(0);
-		if(key==KEY0_PRES)//KEY0按下,发送一次数据
-		{
-			for(i=0;i<8;i++)
-			{
-				canbuf[i]=cnt+i;//填充发送缓冲区
-				if(i<4)LCD_ShowxNum(60+i*32,210,canbuf[i],3,16,0X80);	//显示数据
-				else LCD_ShowxNum(60+(i-4)*32,230,canbuf[i],3,16,0X80);	//显示数据
- 			}
-			res=Can_Send_Msg(canbuf,8);//发送8个字节 
-			if(res)LCD_ShowString(60+80,190,200,16,16,"Failed");		//提示发送失败
-			else LCD_ShowString(60+80,190,200,16,16,"OK    ");	 		//提示发送成功		
-		}
-//		}else if(key==WKUP_PRES)//WK_UP按下，改变CAN的工作模式
-//		{	   
-//			mode=!mode;
-//  			CAN_Mode_Init(CAN_SJW_1tq,CAN_BS2_8tq,CAN_BS1_9tq,4,mode);//CAN普通模式初始化, 波特率500Kbps 
-//			POINT_COLOR=RED;//设置字体为红色 
-//			if(mode==0)//普通模式，需要2个开发板
-//			{
-//				LCD_ShowString(60,130,200,16,16,"Nnormal Mode ");	    
-//			}else //回环模式,一个开发板就可以测试了.
-//			{
-// 				LCD_ShowString(60,130,200,16,16,"LoopBack Mode");
-//			}
-// 			POINT_COLOR=BLUE;//设置字体为蓝色 
-//		}		 
-		key=Can_Receive_Msg(canbuf);
-		if(key)//接收到有数据
-		{			
-			LCD_Fill(60,270,130,310,WHITE);//清除之前的显示
- 			for(i=0;i<key;i++)
-			{									    
-				if(i<4)LCD_ShowxNum(60+i*32,270,canbuf[i],3,16,0X80);	//显示数据
-				else LCD_ShowxNum(60+(i-4)*32,290,canbuf[i],3,16,0X80);	//显示数据
- 			}
-		}
-		t++; 
-		delay_ms(10);
-		if(t==20)
-		{
-			LED0=!LED0;//提示系统正在运行	
-			t=0;
-			cnt++;
-			LCD_ShowxNum(60+48,170,cnt,3,16,0X80);	//显示数据
-		}
-*/		
 	}
-	
+	return 0;
 }
 
 

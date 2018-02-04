@@ -36,3 +36,4 @@
 ..\obj\system.o: canopen.h
 ..\obj\system.o: ..\HARDWARE\LED\led.h
 ..\obj\system.o: ..\SYSTEM\sys\sys.h
+..\obj\system.o: ..\HARDWARE\TIMER\timer.h
